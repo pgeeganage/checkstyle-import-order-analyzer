@@ -1,0 +1,14 @@
+
+n
+java:S2095%"LUse try-with-resources or close this "BufferedReader" in a "finally" clause.(æù§…ıÿÿÿÿ8Ù¤€Öç1
+f
+java:S2583"DChange this condition so that it does not always evaluate to "false"(§¦ÃÀúÿÿÿÿ8Ú¤€Öç1
+^
+java:S1075"ARefactor your code to get this URI from a customizable parameter.(øŞèŸ8ß¤€Öç1
+L	java:S106"+Replace this use of System.out by a logger.(ÛÆ¥™ıÿÿÿÿ8±ŠÏç1
+G	java:S106"+Replace this use of System.out by a logger.(È¤à8â¤€Öç1
+L	java:S106"+Replace this use of System.err by a logger.(Œ§›ãıÿÿÿÿ8ã¤€Öç1
+G	java:S106/"+Replace this use of System.out by a logger.(Æ§¼Ø8é¤€Öç1
+F	java:S1069"+Replace this use of System.out by a logger.(Ú¨ğA8ë¤€Öç1
+L	java:S106:"+Replace this use of System.out by a logger.(…ÄÎùÿÿÿÿ8ë¤€Öç1
+G	java:S106="+Replace this use of System.err by a logger.(Ä¤ÈÜ8ì¤€Öç1
