@@ -5,18 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.example.utility.Utility;
+
 public class ImportValidator {
-
-    private static final String[] EXPECTED_IMPORTS = {
-            "import java.",
-            "import javax.",
-            "import org.",
-            "import com.",
-            "import static org.",
-            "import static com.",
-            "import ccp.",
-            "import lombok."};
-
 
     public static void main(String[] args) {
         String absoluteFilePath = "REPLACE_THIS_WITH_YOUR_ABSOLUTE_FILE_PATH"; // Eg:- C:\Users\\user\\YourDirectory\\YourFileName.java
@@ -44,7 +35,7 @@ public class ImportValidator {
             Collections.sort(actualImports);
             String refactoredImports = "";
             System.out.println("\n=============~ Here are the imports with correct order ~===============\n");
-            for (String expectedImport : EXPECTED_IMPORTS) {
+            for (String expectedImport : Utility.EXPECTED_IMPORT_ORDER) {
                 for (String actualImport : actualImports) {
                     if (actualImport.contains(expectedImport)) {
                         refactoredImports = refactoredImports.concat(actualImport);
