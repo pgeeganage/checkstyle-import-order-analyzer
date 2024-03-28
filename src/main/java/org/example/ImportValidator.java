@@ -19,8 +19,7 @@ public class ImportValidator {
 
 
     public static void main(String[] args) {
-//        String absoluteFilePath = "REPLACE_THIS_WITH_YOUR_ABSOLUTE_FILE_PATH"; // Eg:- C:\Users\\user\\YourDirectory\\YourFileName.java
-        String absoluteFilePath = "C:\\Users\\pgeeganage\\Downloads\\JournalLoaderService.java"; // Eg:- C:\Users\\user\\YourDirectory\\YourFileName.java
+        String absoluteFilePath = "REPLACE_THIS_WITH_YOUR_ABSOLUTE_FILE_PATH"; // Eg:- C:\Users\\user\\YourDirectory\\YourFileName.java
         try {
             if (validateAndFixImportOrder(absoluteFilePath)) {
                 System.out.println("Import order is already valid!");
