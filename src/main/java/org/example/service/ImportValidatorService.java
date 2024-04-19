@@ -26,7 +26,6 @@ public class ImportValidatorService {
                 log.info("Import order has been corrected.");
                 return new ResponseDto("The import order has been corrected successfully!\n"
                         + "Below are the imports with the corrected order:", correctedImports);
-
             }
         } catch (IOException e) {
             log.error("Error reading/writing the file: {}", e.getMessage());
