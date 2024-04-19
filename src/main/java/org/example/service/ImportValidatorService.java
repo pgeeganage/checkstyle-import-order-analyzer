@@ -44,13 +44,8 @@ public class ImportValidatorService {
                     actualImports.add(line);
                 }
             }
-            String refactoredImports = correctImportOrder(actualImports);
-            boolean isImportOrderCorrect = isImportOrderCorrect(refactoredImports, actualImports);
-            if (!isImportOrderCorrect) {
-                refactoredImports = refactoredImports.replaceAll("\\n\\s*\\n\\s*\\n", "\n");
-                correctedImports = refactoredImports;
-            }
-            return isImportOrderCorrect;
+            correctedImports = correctImportOrder(actualImports);
+            return isImportOrderCorrect(correctedImports, actualImports);
         } catch (IOException e) {
             log.error("Error reading the file: {}", e.getMessage());
         }
@@ -67,7 +62,9 @@ public class ImportValidatorService {
                     refactoredImports = refactoredImports.concat("\n");
                 }
             }
-            refactoredImports = refactoredImports.concat("\n");
+            if (!refactoredImports.endsWith("\n\n")) {
+                refactoredImports = refactoredImports.concat("\n");
+            }
         }
         return refactoredImports;
     }

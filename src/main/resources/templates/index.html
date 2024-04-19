@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Import Order Correction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+        }
+
+        form {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        input[type="file"] {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        #submitButton {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #submitButton:hover {
+            background-color: #0056b3;
+        }
+
+        #responseSection {
+            margin-top: 30px;
+            display: none;
+        }
+
+        #responseMessage {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            resize: none;
+            overflow: hidden;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Import Order Correction</h1>
+
+    <!-- Form for file upload -->
+    <form id="fileUploadForm" enctype="multipart/form-data">
+        <!-- Multi-file selector -->
+        <input type="file" name="file" id="file" multiple>
+        <!-- Submit button -->
+        <input type="button" id="submitButton" value="Submit">
+    </form>
+
+    <!-- Display message from controller -->
+    <div id="responseSection">
+        <p id="responseMessage" style="color: green"></p>
+        <textarea id="correctedImports" disabled></textarea>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#submitButton').click(function() {
+            var form = $('#fileUploadForm')[0];
+            var formData = new FormData(form);
+
+            $.ajax({
+                type: "POST",
+                url: "/v1/imports/validate",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(responseDto) {
+                    console.log(responseDto);
+                    $('#responseSection').show();
+                    $('#responseMessage').text(responseDto.message);
+                    $('#correctedImports').text(responseDto.correctedImports);
+                    $('#correctedImports').trigger('input');
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+
+        $('#correctedImports').on('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+    });
+</script>
+</body>
+</html>
