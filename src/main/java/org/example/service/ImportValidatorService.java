@@ -1,31 +1,44 @@
-package org.example;
+package org.example.service;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+import org.example.dto.ResponseDto;
 import org.example.utility.Utility;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-public class ImportValidator {
+@Slf4j
+@Service
+public class ImportValidatorService {
 
-    public static void main(String[] args) {
-        String absoluteFilePath = "REPLACE_THIS_WITH_YOUR_ABSOLUTE_FILE_PATH"; // Eg:- C:\Users\\user\\YourDirectory\\YourFileName.java
-        System.out.println("\n=============~ Starting the Application ~===============\n");
+    private String correctedImports;
+
+    public ResponseDto validateFileImports(MultipartFile file) {
+        log.info("\n=============~ Starting the Application ~===============\n");
         try {
-            if (validateAndFixImportOrder(absoluteFilePath)) {
-                System.out.println("Import order is already valid!");
+            if (validateAndFixImportOrder(file)) {
+                log.warn("Import order is already valid!");
+                return new ResponseDto("Import order is already valid!", null);
             } else {
-                System.out.println("Import order has been corrected.");
+                log.info("Import order has been corrected.");
+                return new ResponseDto("Import order has been corrected.", correctedImports);
+
             }
         } catch (IOException e) {
-            System.out.printf("Error reading/writing the file: {%s}%n", e.getMessage());
+            log.error("Error reading/writing the file: {}", e.getMessage());
+            return new ResponseDto("Error reading/writing the file: " + e.getMessage(), null);
+        } finally {
+            log.info("\n=============~ End ~===============\n");
         }
-        System.out.println("\n=============~  ~===============\n");
     }
 
-    private static boolean validateAndFixImportOrder(String filePath) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))){
+    private boolean validateAndFixImportOrder(MultipartFile file) throws IOException {
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(new ByteArrayInputStream(file.getBytes())))){
             List<String> actualImports = new ArrayList<>();
             String line;
             while ((line = reader.readLine()) != null) {
@@ -36,14 +49,15 @@ public class ImportValidator {
             String refactoredImports = correctImportOrder(actualImports);
             boolean isImportOrderCorrect = isImportOrderCorrect(refactoredImports, actualImports);
             if (!isImportOrderCorrect) {
-                System.out.println("\n=============~ Here are the imports with correct order ~===============\n");
+                log.info("\n=============~ Here are the imports with correct order ~===============\n");
                 refactoredImports = refactoredImports.replaceAll("\\n\\s*\\n\\s*\\n", "\n");
-                System.out.println(refactoredImports);
-                System.out.println("=================================~ End ~=================================\n\n");
+                log.info(refactoredImports);
+                correctedImports = refactoredImports;
+                log.info("=================================~ End ~=================================\n\n");
             }
             return isImportOrderCorrect;
         } catch (IOException e) {
-            System.out.println(String.format("Error reading the file: {%s}", e.getMessage()));
+            log.error("Error reading the file: {}", e.getMessage());
         }
         return false;
     }
