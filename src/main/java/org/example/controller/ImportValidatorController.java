@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
-@RestController("importValidatorController")
+@RestController("importValidatorControllerV1")
 @RequestMapping("/v1/imports")
 public class ImportValidatorController {
 

@@ -18,21 +18,19 @@ public class ImportValidatorService {
     private String correctedImports;
 
     public ResponseDto validateFileImports(MultipartFile file) {
-        log.info("=============~ Validating File Imports ~===============");
         try {
             if (validateAndFixImportOrder(file)) {
                 log.warn("Import order is already valid!");
                 return new ResponseDto("Import order is already valid!", null);
             } else {
                 log.info("Import order has been corrected.");
-                return new ResponseDto("Import order has been corrected.", correctedImports);
+                return new ResponseDto("The import order has been corrected successfully!\n"
+                        + "Below are the imports with the corrected order:", correctedImports);
 
             }
         } catch (IOException e) {
             log.error("Error reading/writing the file: {}", e.getMessage());
             return new ResponseDto("Error reading/writing the file: " + e.getMessage(), null);
-        } finally {
-            log.info("=======================~ End ~========================");
         }
     }
 
@@ -49,11 +47,8 @@ public class ImportValidatorService {
             String refactoredImports = correctImportOrder(actualImports);
             boolean isImportOrderCorrect = isImportOrderCorrect(refactoredImports, actualImports);
             if (!isImportOrderCorrect) {
-                log.info("=============~ Here are the imports with correct order ~===============");
                 refactoredImports = refactoredImports.replaceAll("\\n\\s*\\n\\s*\\n", "\n");
-                log.info(refactoredImports);
                 correctedImports = refactoredImports;
-                log.info("=================================~ End ~=================================");
             }
             return isImportOrderCorrect;
         } catch (IOException e) {
