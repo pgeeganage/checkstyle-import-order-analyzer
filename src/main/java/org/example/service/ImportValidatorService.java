@@ -53,6 +53,23 @@ public class ImportValidatorService {
 
     private static String correctImportOrder(List<String> actualImports) {
         Collections.sort(actualImports);
+
+        List<String> subList = new ArrayList<>();
+        for (int i = 0; i < actualImports.size(); i++) {
+            String importStmt = actualImports.get(i);
+            String[] split = importStmt.split("\\.");
+            String parentImportStmt = importStmt.replace("." + split[split.length - 1], ";");
+            if (actualImports.contains(parentImportStmt)
+                    && i < actualImports.indexOf(parentImportStmt)) {
+                subList.addAll(actualImports.subList(actualImports.indexOf(parentImportStmt),
+                        actualImports.indexOf(parentImportStmt) + 1));
+                subList.addAll(actualImports.subList(i, actualImports.indexOf(parentImportStmt)));
+                actualImports.subList(i, actualImports.indexOf(parentImportStmt) + 1).clear();
+                actualImports.addAll(i, subList);
+            }
+            subList = new ArrayList<>();
+        }
+
         String refactoredImports = "";
         for (String expectedImport : Utility.EXPECTED_IMPORT_ORDER) {
             for (String actualImport : actualImports) {
