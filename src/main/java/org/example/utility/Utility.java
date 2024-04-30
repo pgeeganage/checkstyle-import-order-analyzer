@@ -7,8 +7,9 @@ public final class Utility {
             "import javax.",
             "import org.",
             "import com.",
+            "import ccp.",
             "import static org.",
             "import static com.",
-            "import ccp.",
+            "import static ccp.",
             "import lombok."};
 }
