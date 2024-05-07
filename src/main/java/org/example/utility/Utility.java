@@ -6,10 +6,10 @@ public final class Utility {
             "import java.",
             "import javax.",
             "import org.",
-            "import com.",
-            "import ccp.",
             "import static org.",
+            "import com.",
             "import static com.",
+            "import ccp.",
             "import static ccp.",
             "import lombok."};
 }
