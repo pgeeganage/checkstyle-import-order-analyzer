@@ -52,8 +52,10 @@ public class ImportValidatorService {
     }
 
     private static String correctImportOrder(List<String> actualImports) {
+        // Order the imports in alphabetical order
         Collections.sort(actualImports);
 
+        // Correct the order for imports like: import java.util.Map; import java.util.Map.Entry;
         List<String> subList = new ArrayList<>();
         for (int i = 0; i < actualImports.size(); i++) {
             String importStmt = actualImports.get(i);
@@ -70,6 +72,7 @@ public class ImportValidatorService {
             subList = new ArrayList<>();
         }
 
+        // Loop through the actual imports and reorder them based on the expected order
         String refactoredImports = "";
         for (String expectedImport : Utility.EXPECTED_IMPORT_ORDER) {
             for (String actualImport : actualImports) {
